@@ -36,7 +36,7 @@
     `INFO  amqp-producer - SEND AMQP request. 779`
     
 ### 2. amqp-consumer
-  このCamel Routeは、AMQ-Broker上の`demoQueue`をリスニングします。キューに到達したメッセージをトリガーに、取得したメッセージのボデイをログに出力します。
+  このCamel Routeは、AMQ-Broker上の`demoQueue`をリスニングします。キューに到達したメッセージをトリガーに、取得したメッセージのボデイをログに出力します。  
     `INFO  amqp-consumer - GOT AMQP request. 779`
 
 ## 本サンプルの実行方法
@@ -59,7 +59,7 @@
     ```
     ※ *usernameとpasswordは自分のAMQ設定に合わせて変更すること*
 
-2. コマンドプロンプトにて実行します。
+2. コマンドプロンプトにて実行します。  
    `mvn spring-boot:run`
 
 3. コマンドプロンプトで２秒間隔に以下のような出力を確認してください。
@@ -99,7 +99,7 @@
     ※ *上記の"amq-demo-non-ssl"は、Openshift上のAMQプロジェクト名に置き換えてください*
 
 3. コマンドプロンプトにて実行します。  
-   このコマンドでは、ローカルPCのocコマンドでログインしたOpenshiftプロジェクト(AMQ Brokerのプロジェクト)にFuseアプリをデプロイします。
+   このコマンドでは、ローカルPCのocコマンドでログインしたOpenshiftプロジェクト(AMQ Brokerのプロジェクト)にFuseアプリをデプロイします。  
    `mvn fabric8:deploy -Popenshift`
 
 4. コマンドプロンプトで以下のような出力を確認してください。
