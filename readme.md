@@ -126,32 +126,32 @@
 ※ 本手順の実施には、インターネット接続が必要。
 
 1. Maven archetypeより、Fuseアプリの雛形を生成します。
-  ```sh
-  # Config archetype to use
-  archetypeVersion=2.2.0.fuse-sb2-750011-redhat-00006
-  archetypeCatalog=https://maven.repository.redhat.com/ga/io/fabric8/archetypes/archetypes-catalog/${archetypeVersion}/archetypes-catalog-${archetypeVersion}-archetype-catalog.xml
+    ```sh
+    # Config archetype to use
+    archetypeVersion=2.2.0.fuse-sb2-750011-redhat-00006
+    archetypeCatalog=https://maven.repository.redhat.com/ga/io/fabric8/archetypes/archetypes-catalog/${archetypeVersion}/archetypes-catalog-${archetypeVersion}-archetype-catalog.xml
 
-  # Config Fuse project name to generate
-  MY_PROJECT=fuse-amq-demo
+    # Config Fuse project name to generate
+    MY_PROJECT=fuse-amq-demo
 
-  # Generate from archetype, which is SpringBoot2 based Camel Application using XML DSL
-  mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -B \
-    -DarchetypeCatalog=${archetypeCatalog} \
-    -DarchetypeGroupId=org.jboss.fuse.fis.archetypes \
-    -DarchetypeVersion=${archetypeVersion} \
-    -DarchetypeArtifactId=spring-boot-camel-xml-archetype \
-    -DgroupId=com.sample \
-    -DartifactId=${MY_PROJECT}  \
-    -DoutputDirectory=${MY_PROJECT}
-  ```
+    # Generate from archetype, which is SpringBoot2 based Camel Application using XML DSL
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -B \
+      -DarchetypeCatalog=${archetypeCatalog} \
+      -DarchetypeGroupId=org.jboss.fuse.fis.archetypes \
+      -DarchetypeVersion=${archetypeVersion} \
+      -DarchetypeArtifactId=spring-boot-camel-xml-archetype \
+      -DgroupId=com.sample \
+      -DartifactId=${MY_PROJECT}  \
+      -DoutputDirectory=${MY_PROJECT}
+    ```
 
 2. `pom.xml` へ依存ライブラリcamel-amqpを追加
-```xml
-<dependency>
-  <groupId>org.apache.camel</groupId>
-  <artifactId>camel-amqp</artifactId>
-</dependency>
-```
+    ```xml
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-amqp</artifactId>
+    </dependency>
+    ```
 
 3. `src/main/resources/spring/camel-context.xml` へ`<camelContext>`の前に、bean定義を追加
     ```xml
