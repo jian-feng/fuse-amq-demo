@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <!-- AMQP connectivity -->
+  <bean id="jmsConnectionFactory"
+    class="org.apache.qpid.jms.JmsConnectionFactory"
+    primary="true">
+      <property name="remoteURI" value="${amqp.uri}" />
+      <property name="username" value="${amqp.username}" />
+      <property name="password" value="${amqp.password}" />
+  </bean>
+  <bean id="jmsCachingConnectionFactory"
+    class="org.springframework.jms.connection.CachingConnectionFactory">
+      <property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+  </bean>
+  <bean id="jmsConfig"
+    class="org.apache.camel.component.jms.JmsConfiguration" >
+      <constructor-arg ref="jmsCachingConnectionFactory" /> 
+      <!-- <property name="cacheLevelName" value="CACHE_CONSUMER" /> -->
+      <property name="cacheLevelName" value="CACHE_AUTO" />
+  </bean>    
+  <bean id="amqp"
+    class="org.apache.camel.component.amqp.AMQPComponent">
+      <property name="configuration" ref="jmsConfig" />
+  </bean>
+
+  <!-- Define a traditional camel context here -->
+  <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+    <route id="amqp-producer">
+      <from id="route-timer" uri="timer:foo?period=2000"/>
+      <transform id="route-transform">
+        <method ref="myTransformer"/>
+      </transform>
+      <to uri="amqp:queue:demoQueue"/>
+      <log id="route-log" message="SEND AMQP request. ${body}"/>
+    </route>
+
+    <route id="amqp-consumer">
+      <from uri="amqp:queue:demoQueue"/>
+      <log message="GOT AMQP request. ${body}"/>
+    </route>
+    
+  </camelContext>
+
+</beans>
